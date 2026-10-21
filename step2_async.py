@@ -28,11 +28,14 @@ async def main() -> None:
     # for i in range(1, 11):
         # await work(i)  # 1 вариант (синх обработка)
 
-    coroutines = [work(i) for i in range(1, 11)]
-    await asyncio.gather(*coroutines)  # 2 вариант (асинх обработка через gather)
+    # coroutines = [work(i) for i in range(1, 11)]
+    # await asyncio.gather(*coroutines)  # 2 вариант (асинх обработка через gather)
 
-    # coroutines = [asyncio.create_task(work(i)) for i in range(1, 11)]
-    # [await coro for coro in coroutines]  # 3 вариант (асинх обработка через create_task)
+    coroutines = []
+    for i in range(1, 11):
+        coro = asyncio.create_task(work(i))
+        coroutines.append(coro)
+    [await coro for coro in coroutines]  # 3 вариант (асинх обработка через create_task)
 
 
 if __name__ == "__main__":
